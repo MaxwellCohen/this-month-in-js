@@ -332,14 +332,24 @@ a:hover {
 .feature-row__mdn,
 .feature-row__mdn-single,
 .feature-row__mdn-missing {
-  margin: 0.55rem 0 0;
+  margin: 0.35rem 0 0;
   padding: 0;
   list-style: none;
   font-size: 0.85rem;
 }
 
+.feature-row__mdn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .feature-row__mdn a,
 .feature-row__mdn-single a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  padding-block: 0.65rem;
   color: var(--muted);
 }
 

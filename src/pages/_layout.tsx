@@ -1,6 +1,6 @@
 import '../styles.css';
 
-import type { ReactNode } from 'react';
+import { Suspense, type ReactNode } from 'react';
 
 import { Footer } from '../components/footer';
 import { Header } from '../components/header';
@@ -21,7 +21,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         precedence="font"
       />
       <Header />
-      <main className="site-main">{children}</main>
+      <main className="site-main">
+        <Suspense fallback={<div className="state-panel">Loading…</div>}>
+          {children}
+        </Suspense>
+      </main>
       <Footer />
     </div>
   );

@@ -18,10 +18,20 @@ export function MonthNav({ current }: MonthNavProps) {
   return (
     <nav className="month-nav" aria-label="Months">
       <div className="month-nav__arrows">
-        <Link to={`/${prev}`} className="month-nav__arrow">
+        <Link
+          to={`/${prev}`}
+          className="month-nav__arrow"
+          unstable_instant
+          unstable_prefetchOnEnter={{ mode: 'once' }}
+        >
           <span aria-hidden="true">←</span> {monthLabel(prev)}
         </Link>
-        <Link to={`/${next}`} className="month-nav__arrow">
+        <Link
+          to={`/${next}`}
+          className="month-nav__arrow"
+          unstable_instant
+          unstable_prefetchOnEnter={{ mode: 'once' }}
+        >
           {monthLabel(next)} <span aria-hidden="true">→</span>
         </Link>
       </div>
@@ -36,6 +46,8 @@ export function MonthNav({ current }: MonthNavProps) {
                   : 'month-nav__pill'
               }
               aria-current={slug === current ? 'page' : undefined}
+              unstable_instant
+              unstable_prefetchOnEnter={{ mode: 'once' }}
             >
               {monthLabel(slug).slice(0, 3)}
             </Link>

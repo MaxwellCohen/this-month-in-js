@@ -6,11 +6,14 @@ import type { PathsForPages, GetConfigResponse, SearchCodecsForPages } from 'wak
 // prettier-ignore
 import type { getConfig as File_Month_getConfig } from './pages/[month]';
 // prettier-ignore
+import type { getConfig as File_Root_getConfig } from './pages/_root';
+// prettier-ignore
 import type { getConfig as File_Index_getConfig } from './pages/index';
 
 // prettier-ignore
 type Page =
 | ({ path: '/[month]' } & GetConfigResponse<typeof File_Month_getConfig>)
+| ({ path: '/_root' } & GetConfigResponse<typeof File_Root_getConfig>)
 | ({ path: '/' } & GetConfigResponse<typeof File_Index_getConfig>);
 
 // prettier-ignore
