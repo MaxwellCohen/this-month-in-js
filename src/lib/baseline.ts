@@ -8,7 +8,8 @@ export const WEB_FEATURES_URL =
 export const MDN_DOCS_URL =
   'https://raw.githubusercontent.com/web-platform-dx/web-features-mappings/main/mappings/mdn-docs.json';
 
-const CACHE_TTL_MS = 60 * 60 * 1000;
+/** Align with CDN ISR: refresh upstream data at most weekly per process */
+const CACHE_TTL_MS = 60 * 60 * 24 * 7 * 1000;
 
 export type MdnDoc = {
   title: string;

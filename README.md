@@ -13,7 +13,9 @@ Pick a month (`/july`, `/march`, …) and see which JS features crossed the Base
 
 ## Data
 
-Baseline dates come from [`web-features`](https://github.com/web-platform-dx/web-features). MDN links are resolved via the [web-features-mappings](https://github.com/web-platform-dx/web-features-mappings) MDN docs map. Both are fetched at request time and cached in memory for one hour.
+Baseline dates come from [`web-features`](https://github.com/web-platform-dx/web-features). MDN links are resolved via the [web-features-mappings](https://github.com/web-platform-dx/web-features-mappings) MDN docs map. Both are fetched when a page is (re)generated and cached in memory for one week.
+
+Pages stay `dynamic` but are cached on the Vercel CDN for **one week** (`s-maxage=604800` + `stale-while-revalidate`), so Baseline updates show up without a redeploy — ISR-style via `Cache-Control`.
 
 Only features in the JavaScript group (and its subgroups) are included.
 
