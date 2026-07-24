@@ -1,6 +1,13 @@
 import { FlatFeatureList } from '../components/feature-list';
 import { getWidelyAvailable } from '../lib/baseline';
 
+const sectionTitle =
+  'mb-2 flex items-baseline justify-between gap-4 border-b border-line pb-2';
+const sectionHeading = 'font-display text-2xl font-bold tracking-[-0.03em]';
+const sectionCount =
+  'font-mono text-xs tracking-[0.04em] text-muted uppercase';
+const sectionLede = 'mb-5 text-[0.95rem] text-muted';
+
 export default async function WidelyPage() {
   const {
     graduatingNextMonth,
@@ -10,17 +17,21 @@ export default async function WidelyPage() {
   } = await getWidelyAvailable();
 
   return (
-    <div className="widely-page">
+    <div className="max-w-content">
       <title>Widely available — On This Month in JavaScript</title>
       <meta
         name="description"
         content="JavaScript features that are Baseline widely available, and which ones graduate next month."
       />
 
-      <section className="hero">
-        <p className="hero__brand">On This Month in JavaScript</p>
-        <h1 className="hero__month">widely available</h1>
-        <p className="hero__lede">
+      <section className="mb-8">
+        <p className="font-display mb-3 text-[clamp(1.75rem,4.5vw,2.6rem)] leading-[1.05] font-extrabold tracking-[-0.04em] text-ink">
+          On This Month in JavaScript
+        </p>
+        <h1 className="font-mono mb-[0.85rem] text-[clamp(2.5rem,8vw,4.5rem)] leading-[0.95] font-medium tracking-[-0.06em] text-accent lowercase">
+          widely available
+        </h1>
+        <p className="m-0 max-w-xl text-[1.05rem] text-muted">
           JS features that are{' '}
           <a
             href="https://web.dev/baseline"
@@ -32,7 +43,7 @@ export default async function WidelyPage() {
           , plus what’s graduating next month
         </p>
         {!error ? (
-          <p className="hero__meta">
+          <p className="mt-4 font-mono text-[0.8rem] tracking-[0.04em] text-accent uppercase">
             {widelyAvailable.length} widely available
             {graduatingNextMonth.length > 0
               ? ` · ${graduatingNextMonth.length} graduating in ${nextMonthLabel}`
@@ -49,17 +60,17 @@ export default async function WidelyPage() {
         />
       ) : (
         <>
-          <section className="widely-section">
-            <h2 className="widely-section__title">
-              <span className="widely-section__heading">
+          <section className="mt-11">
+            <h2 className={sectionTitle}>
+              <span className={sectionHeading}>
                 Coming in {nextMonthLabel}
               </span>
-              <span className="widely-section__count">
+              <span className={sectionCount}>
                 {graduatingNextMonth.length}{' '}
                 {graduatingNextMonth.length === 1 ? 'feature' : 'features'}
               </span>
             </h2>
-            <p className="widely-section__lede">
+            <p className={sectionLede}>
               Newly available features projected to become widely available next
               month (30 months after their Baseline low date).
             </p>
@@ -69,15 +80,15 @@ export default async function WidelyPage() {
             />
           </section>
 
-          <section className="widely-section">
-            <h2 className="widely-section__title">
-              <span className="widely-section__heading">All widely available</span>
-              <span className="widely-section__count">
+          <section className="mt-11">
+            <h2 className={sectionTitle}>
+              <span className={sectionHeading}>All widely available</span>
+              <span className={sectionCount}>
                 {widelyAvailable.length}{' '}
                 {widelyAvailable.length === 1 ? 'feature' : 'features'}
               </span>
             </h2>
-            <p className="widely-section__lede">
+            <p className={sectionLede}>
               Newest Baseline widely available dates first.
             </p>
             <FlatFeatureList

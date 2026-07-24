@@ -9,7 +9,7 @@ type RootLayoutProps = { children: ReactNode };
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <div className="site-shell">
+    <div className="flex min-h-svh flex-col">
       <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
       <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         precedence="font"
       />
       <Header />
-      <main className="site-main">
+      <main className="mx-auto w-full max-w-shell flex-1 px-6 pt-6 pb-16">
         <ViewTransition name="page-fade">
           <Suspense>{children}</Suspense>
         </ViewTransition>

@@ -2,7 +2,7 @@ import { MDN_DOCS_URL, WEB_FEATURES_URL } from '../lib/baseline';
 
 export const Footer = () => {
   return (
-    <footer className="site-footer">
+    <footer className="mx-auto w-full max-w-shell px-6 py-6 text-[0.85rem] text-muted [&_a]:text-muted [&_a:hover]:text-accent [&_p]:m-0">
       <p>
         Baseline dates from{' '}
         <a
@@ -22,7 +22,7 @@ export const Footer = () => {
         </a>
         .
       </p>
-      <p className="site-footer__data">
+      <p className="mt-[0.45rem] font-mono text-xs tracking-[0.01em]">
         Underlying data:{' '}
         <a href={WEB_FEATURES_URL} target="_blank" rel="noreferrer">
           web-features data.json

@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import type { BaselineFeature, YearGroup } from '../lib/baseline';
 
 type FeatureListProps = {
@@ -36,9 +38,14 @@ function FeatureDate({
   iso: string;
 }) {
   return (
-    <div className="feature-row__date-block">
-      <span className="feature-row__date-label">{label}</span>
-      <time className="feature-row__date" dateTime={iso}>
+    <div className="flex flex-col gap-[0.15rem]">
+      <span className="font-mono text-[0.65rem] tracking-[0.06em] text-[color-mix(in_oklab,var(--color-muted)_82%,var(--color-ink))] uppercase">
+        {label}
+      </span>
+      <time
+        className="font-mono text-xs tracking-[0.03em] text-muted whitespace-nowrap"
+        dateTime={iso}
+      >
         {formatDate(iso)}
       </time>
     </div>
@@ -49,15 +56,15 @@ function FeatureRow({ feature }: { feature: BaselineFeature }) {
   const primary = feature.mdn[0];
 
   return (
-    <li className="feature-row">
-      <div className="feature-row__main">
-        <h3 className="feature-row__name">
+    <li className="grid grid-cols-1 items-start gap-[0.35rem] sm:grid-cols-[1fr_auto] sm:gap-x-6 sm:gap-y-4">
+      <div>
+        <h3 className="m-0 font-display text-[1.2rem] leading-tight font-bold tracking-[-0.02em]">
           {primary ? (
             <a
               href={primary.url}
               target="_blank"
               rel="noreferrer"
-              className="feature-row__link"
+              className="bg-[linear-gradient(var(--color-accent),var(--color-accent))] bg-size-[0_2px] bg-bottom bg-no-repeat text-ink no-underline transition-[background-size,color] duration-200 hover:bg-size-[100%_2px] hover:text-accent motion-reduce:transition-none"
             >
               {feature.name}
             </a>
@@ -66,29 +73,43 @@ function FeatureRow({ feature }: { feature: BaselineFeature }) {
           )}
         </h3>
         {feature.description ? (
-          <p className="feature-row__desc">{feature.description}</p>
+          <p className="mt-[0.4rem] mb-0 text-[0.95rem] text-muted">
+            {feature.description}
+          </p>
         ) : null}
         {feature.mdn.length > 1 ? (
-          <ul className="feature-row__mdn">
+          <ul className="mt-[0.35rem] mb-0 flex list-none flex-col gap-2 p-0 text-[0.85rem]">
             {feature.mdn.map((doc) => (
               <li key={doc.url}>
-                <a href={doc.url} target="_blank" rel="noreferrer">
+                <a
+                  href={doc.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-12 items-center py-[0.65rem] text-muted hover:text-accent"
+                >
                   {doc.title}
                 </a>
               </li>
             ))}
           </ul>
         ) : primary ? (
-          <p className="feature-row__mdn-single">
-            <a href={primary.url} target="_blank" rel="noreferrer">
+          <p className="mt-[0.35rem] mb-0 list-none p-0 text-[0.85rem]">
+            <a
+              href={primary.url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-12 items-center py-[0.65rem] text-muted hover:text-accent"
+            >
               MDN docs
             </a>
           </p>
         ) : (
-          <p className="feature-row__mdn-missing">No MDN page mapped yet</p>
+          <p className="mt-[0.35rem] mb-0 list-none p-0 text-[0.85rem] text-muted italic">
+            No MDN page mapped yet
+          </p>
         )}
       </div>
-      <div className="feature-row__dates">
+      <div className="-order-1 flex flex-col items-start gap-[0.55rem] pt-0 text-left sm:order-0 sm:items-end sm:pt-[0.2rem] sm:text-right">
         <FeatureDate label="Newly available" iso={feature.newlyAvailableDate} />
         {feature.widelyAvailableDate ? (
           <FeatureDate
@@ -101,6 +122,27 @@ function FeatureRow({ feature }: { feature: BaselineFeature }) {
   );
 }
 
+function StatePanel({
+  children,
+  error,
+}: {
+  children: ReactNode;
+  error?: boolean;
+}) {
+  return (
+    <div
+      className={
+        error
+          ? 'border border-dashed border-danger/40 bg-bg-elevated p-6 text-ink'
+          : 'border border-dashed border-line bg-bg-elevated p-6 text-muted'
+      }
+      role={error ? 'alert' : undefined}
+    >
+      {children}
+    </div>
+  );
+}
+
 export function FlatFeatureList({
   features,
   emptyMessage,
@@ -108,23 +150,23 @@ export function FlatFeatureList({
 }: FlatFeatureListProps) {
   if (error) {
     return (
-      <div className="state-panel state-panel--error" role="alert">
+      <StatePanel error>
         <p>Couldn’t load Baseline data right now.</p>
-        <p className="state-panel__detail">{error}</p>
-      </div>
+        <p className="mt-2 mb-0 font-mono text-[0.8rem] text-danger">{error}</p>
+      </StatePanel>
     );
   }
 
   if (features.length === 0) {
     return (
-      <div className="state-panel">
+      <StatePanel>
         <p>{emptyMessage}</p>
-      </div>
+      </StatePanel>
     );
   }
 
   return (
-    <ul className="feature-list">
+    <ul className="m-0 flex list-none flex-col gap-[1.35rem] p-0">
       {features.map((feature) => (
         <FeatureRow key={feature.id} feature={feature} />
       ))}
@@ -139,36 +181,38 @@ export function FeatureList({
 }: FeatureListProps) {
   if (error) {
     return (
-      <div className="state-panel state-panel--error" role="alert">
+      <StatePanel error>
         <p>Couldn’t load Baseline data right now.</p>
-        <p className="state-panel__detail">{error}</p>
-      </div>
+        <p className="mt-2 mb-0 font-mono text-[0.8rem] text-danger">{error}</p>
+      </StatePanel>
     );
   }
 
   if (groups.length === 0) {
     return (
-      <div className="state-panel">
+      <StatePanel>
         <p>
           No JavaScript features became Baseline newly available in{' '}
           {monthLabel} (any year) — yet.
         </p>
-      </div>
+      </StatePanel>
     );
   }
 
   return (
-    <div className="year-stack">
+    <div className="flex flex-col gap-11">
       {groups.map((group) => (
-        <section key={group.year} className="year-block">
-          <h2 className="year-block__title">
-            <span className="year-block__year">{group.year}</span>
-            <span className="year-block__count">
+        <section key={group.year}>
+          <h2 className="mb-4 flex items-baseline justify-between gap-4 border-b border-line pb-2">
+            <span className="font-display text-2xl font-bold tracking-[-0.03em]">
+              {group.year}
+            </span>
+            <span className="font-mono text-xs tracking-[0.04em] text-muted uppercase">
               {group.features.length}{' '}
               {group.features.length === 1 ? 'feature' : 'features'}
             </span>
           </h2>
-          <ul className="feature-list">
+          <ul className="m-0 flex list-none flex-col gap-[1.35rem] p-0">
             {group.features.map((feature) => (
               <FeatureRow key={feature.id} feature={feature} />
             ))}
