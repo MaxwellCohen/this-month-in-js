@@ -6,7 +6,16 @@ type FeatureListProps = {
   error?: string | undefined;
 };
 
+type FlatFeatureListProps = {
+  features: BaselineFeature[];
+  emptyMessage: string;
+  error?: string | undefined;
+};
+
 function formatDate(iso: string): string {
+  if (!iso) {
+    return '';
+  }
   const [y, m, d] = iso.split('-').map(Number);
   if (!y || !m || !d) {
     return iso;
@@ -17,6 +26,23 @@ function formatDate(iso: string): string {
     year: 'numeric',
     timeZone: 'UTC',
   });
+}
+
+function FeatureDate({
+  label,
+  iso,
+}: {
+  label: string;
+  iso: string;
+}) {
+  return (
+    <div className="feature-row__date-block">
+      <span className="feature-row__date-label">{label}</span>
+      <time className="feature-row__date" dateTime={iso}>
+        {formatDate(iso)}
+      </time>
+    </div>
+  );
 }
 
 function FeatureRow({ feature }: { feature: BaselineFeature }) {
@@ -62,10 +88,47 @@ function FeatureRow({ feature }: { feature: BaselineFeature }) {
           <p className="feature-row__mdn-missing">No MDN page mapped yet</p>
         )}
       </div>
-      <time className="feature-row__date" dateTime={feature.lowDate}>
-        {formatDate(feature.lowDate)}
-      </time>
+      <div className="feature-row__dates">
+        <FeatureDate label="Newly available" iso={feature.newlyAvailableDate} />
+        {feature.widelyAvailableDate ? (
+          <FeatureDate
+            label="Widely available"
+            iso={feature.widelyAvailableDate}
+          />
+        ) : null}
+      </div>
     </li>
+  );
+}
+
+export function FlatFeatureList({
+  features,
+  emptyMessage,
+  error,
+}: FlatFeatureListProps) {
+  if (error) {
+    return (
+      <div className="state-panel state-panel--error" role="alert">
+        <p>Couldn’t load Baseline data right now.</p>
+        <p className="state-panel__detail">{error}</p>
+      </div>
+    );
+  }
+
+  if (features.length === 0) {
+    return (
+      <div className="state-panel">
+        <p>{emptyMessage}</p>
+      </div>
+    );
+  }
+
+  return (
+    <ul className="feature-list">
+      {features.map((feature) => (
+        <FeatureRow key={feature.id} feature={feature} />
+      ))}
+    </ul>
   );
 }
 

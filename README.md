@@ -1,8 +1,8 @@
 # On This Month in JavaScript
 
-Browse JavaScript features that became [Baseline newly available](https://web.dev/baseline) in a given calendar month — across every year.
+Browse JavaScript features by when they crossed [Baseline](https://web.dev/baseline) thresholds — newly available by calendar month, or widely available across the platform.
 
-Pick a month (`/july`, `/march`, …) and see which JS features crossed the Baseline “newly available” threshold that month, grouped by year, with links to MDN.
+Pick a month (`/july`, `/march`, …) for newly available history, or open `/widely` for features that are widely available and what’s graduating next month.
 
 ## Stack
 
@@ -17,7 +17,7 @@ Baseline dates come from [`web-features`](https://github.com/web-platform-dx/web
 
 Pages stay `dynamic` but are cached on the Vercel CDN for **one week** (`s-maxage=604800` + `stale-while-revalidate`), so Baseline updates show up without a redeploy — ISR-style via `Cache-Control`.
 
-Only features in the JavaScript group (and its subgroups) are included.
+Only features in the JavaScript group (and its subgroups) are included. “Coming next month” on `/widely` projects graduations as **30 months after** each feature’s Baseline low date (features that are still newly available).
 
 ## Develop
 
@@ -26,7 +26,7 @@ npm install
 npm run dev
 ```
 
-Then open [http://localhost:3000](http://localhost:3000). The home page redirects to the current month (UTC).
+Then open [http://localhost:3000](http://localhost:3000).
 
 | Script        | Description              |
 | ------------- | ------------------------ |
@@ -39,7 +39,8 @@ Then open [http://localhost:3000](http://localhost:3000). The home page redirect
 
 | Path           | Behavior                                      |
 | -------------- | --------------------------------------------- |
-| `/`            | Redirects to the current month (UTC)          |
+| `/`            | Landing page with links to this month and `/widely` |
+| `/widely`      | Widely available list + next-month graduations |
 | `/[month]`     | Features newly available in that month        |
 | Invalid month  | 404                                           |
 

@@ -79,6 +79,10 @@ a:hover {
 }
 
 .site-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
   padding: 1.25rem 1.5rem 0;
   max-width: calc(var(--max) + 6rem);
   margin: 0 auto;
@@ -99,6 +103,25 @@ a:hover {
 .site-header__brand:hover {
   opacity: 1;
   color: var(--ink);
+}
+
+.site-header__nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.site-header__link {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-header__link:hover {
+  color: var(--accent);
 }
 
 .site-main {
@@ -137,8 +160,142 @@ a:hover {
   color: var(--accent);
 }
 
-.month-page {
+.month-page,
+.widely-page,
+.landing-page {
   max-width: var(--max);
+}
+
+.landing-hero {
+  padding: clamp(1.75rem, 8vh, 3.5rem) 0 2.25rem;
+}
+
+.landing-hero__brand {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.1rem, 6vw, 3.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  color: var(--ink);
+  animation: landing-rise 0.55s ease both;
+}
+
+.landing-hero__lede {
+  margin: 0 0 2rem;
+  max-width: 32rem;
+  color: var(--muted);
+  font-size: 1.1rem;
+  animation: landing-rise 0.55s ease 0.08s both;
+}
+
+.landing-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  animation: landing-rise 0.55s ease 0.16s both;
+}
+
+.landing-cta {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.85rem 1.15rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  background: color-mix(in oklab, var(--bg-elevated) 80%, transparent);
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.landing-cta:hover {
+  color: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
+}
+
+.landing-cta--primary {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.landing-cta--primary:hover {
+  color: var(--bg);
+  background: #f3d97a;
+  border-color: #f3d97a;
+}
+
+.landing-cta__meta {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.landing-section,
+.widely-section {
+  margin-top: 2.75rem;
+}
+
+.landing-section__title,
+.widely-section__title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.landing-section__heading,
+.widely-section__heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.03em;
+}
+
+.landing-section__count,
+.widely-section__count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.landing-section__lede,
+.widely-section__lede {
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.landing-section .month-nav {
+  margin-bottom: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+@keyframes landing-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero {
@@ -357,13 +514,35 @@ a:hover {
   font-style: italic;
 }
 
+.feature-row__dates {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.55rem;
+  padding-top: 0.2rem;
+  text-align: right;
+}
+
+.feature-row__date-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.feature-row__date-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted) 82%, var(--ink));
+}
+
 .feature-row__date {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.03em;
   color: var(--muted);
   white-space: nowrap;
-  padding-top: 0.35rem;
 }
 
 .state-panel {
@@ -391,7 +570,9 @@ a:hover {
     gap: 0.35rem;
   }
 
-  .feature-row__date {
+  .feature-row__dates {
+    align-items: flex-start;
+    text-align: left;
     padding-top: 0;
     order: -1;
   }
@@ -421,8 +602,15 @@ a:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .feature-row__link {
+  .feature-row__link,
+  .landing-cta {
     transition: none;
+  }
+
+  .landing-hero__brand,
+  .landing-hero__lede,
+  .landing-hero__actions {
+    animation: none;
   }
 
   ::view-transition-group(*),

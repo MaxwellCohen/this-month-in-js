@@ -41,3 +41,19 @@ export function adjacentMonth(
   const index = MONTH_SLUGS.indexOf(slug);
   return MONTH_SLUGS[(index + delta + 12) % 12]!;
 }
+
+/** Next calendar month in UTC (year + 1–12 month number + slug). */
+export function nextUtcMonth(now = new Date()): {
+  year: number;
+  month: number;
+  slug: MonthSlug;
+} {
+  const next = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1),
+  );
+  return {
+    year: next.getUTCFullYear(),
+    month: next.getUTCMonth() + 1,
+    slug: MONTH_SLUGS[next.getUTCMonth()]!,
+  };
+}
