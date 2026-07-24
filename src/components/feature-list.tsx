@@ -96,12 +96,8 @@ export function FeatureList({
 
   return (
     <div className="year-stack">
-      {groups.map((group, index) => (
-        <section
-          key={group.year}
-          className="year-block"
-          style={{ animationDelay: `${0.08 + index * 0.06}s` }}
-        >
+      {groups.map((group) => (
+        <section key={group.year} className="year-block">
           <h2 className="year-block__title">
             <span className="year-block__year">{group.year}</span>
             <span className="year-block__count">

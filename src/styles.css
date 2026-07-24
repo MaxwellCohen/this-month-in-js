@@ -143,7 +143,6 @@ a:hover {
 
 .hero {
   margin-bottom: 2rem;
-  animation: rise 0.55s ease both;
 }
 
 .hero__brand {
@@ -187,7 +186,6 @@ a:hover {
   margin-bottom: 2.5rem;
   padding-top: 0.5rem;
   border-top: 1px solid var(--line);
-  animation: rise 0.55s ease 0.08s both;
 }
 
 .month-nav__arrows {
@@ -252,10 +250,6 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 2.75rem;
-}
-
-.year-block {
-  animation: rise 0.5s ease both;
 }
 
 .year-block__title {
@@ -377,7 +371,6 @@ a:hover {
   border: 1px dashed var(--line);
   background: var(--bg-elevated);
   color: var(--muted);
-  animation: rise 0.4s ease both;
 }
 
 .state-panel--error {
@@ -392,17 +385,6 @@ a:hover {
   color: var(--danger);
 }
 
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(0.6rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (max-width: 640px) {
   .feature-row {
     grid-template-columns: 1fr;
@@ -415,15 +397,37 @@ a:hover {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero,
-  .month-nav,
-  .year-block,
-  .state-panel {
-    animation: none;
-  }
+/* React <ViewTransition update="page-fade" /> */
+::view-transition-old(.page-fade) {
+  animation: page-fade-out 0.22s ease both;
+}
 
+::view-transition-new(.page-fade) {
+  animation: page-fade-in 0.28s ease both;
+}
+
+@keyframes page-fade-out {
+  to {
+    opacity: 0;
+    transform: translateY(-0.3rem);
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
   .feature-row__link {
     transition: none;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

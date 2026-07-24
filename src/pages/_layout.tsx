@@ -1,9 +1,9 @@
-import '../styles.css';
+import "../styles.css";
 
-import { Suspense, type ReactNode } from 'react';
+import { Suspense, type ReactNode, ViewTransition } from "react";
 
-import { Footer } from '../components/footer';
-import { Header } from '../components/header';
+import { Footer } from "../components/footer";
+import { Header } from "../components/header";
 
 type RootLayoutProps = { children: ReactNode };
 
@@ -22,9 +22,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       />
       <Header />
       <main className="site-main">
-        <Suspense fallback={<div className="state-panel">Loading…</div>}>
-          {children}
-        </Suspense>
+        <ViewTransition name="page-fade">
+          <Suspense>{children}</Suspense>
+        </ViewTransition>
       </main>
       <Footer />
     </div>
@@ -33,6 +33,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
 export const getConfig = async () => {
   return {
-    render: 'static',
+    render: "static",
   } as const;
 };
