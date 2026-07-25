@@ -1,3 +1,5 @@
+import { cacheLife, cacheTag } from 'next/cache';
+
 import {
   monthNumber,
   nextUtcMonth,
@@ -9,11 +11,15 @@ export const WEB_FEATURES_URL =
 export const MDN_DOCS_URL =
   'https://raw.githubusercontent.com/web-platform-dx/web-features-mappings/main/mappings/mdn-docs.json';
 
-/** Align with CDN ISR: refresh upstream data at most weekly per process */
-const CACHE_TTL_MS = 60 * 60 * 24 * 7 * 1000;
-
 /** Baseline newly available → widely available after 30 months */
 const WIDELY_AVAILABLE_AFTER_MONTHS = 30;
+
+/** Weekly ISR-style lifetime (matches prior CDN s-maxage) */
+export const BASELINE_CACHE_LIFE = {
+  stale: 604800,
+  revalidate: 604800,
+  expire: 1_209_600,
+} as const;
 
 export type MdnDoc = {
   title: string;
@@ -75,37 +81,30 @@ type MdnDocsMap = Record<
   Array<{ title?: string; url?: string; slug?: string }>
 >;
 
-type CacheEntry<T> = { expires: number; value: T };
-
-const cache = new Map<string, CacheEntry<unknown>>();
-
-async function cachedFetchJson<T>(
-  key: string,
-  url: string,
-): Promise<T> {
-  const hit = cache.get(key) as CacheEntry<T> | undefined;
-  if (hit && hit.expires > Date.now()) {
-    return hit.value;
-  }
-
+async function fetchJson<T>(url: string, label: string): Promise<T> {
   const response = await fetch(url, {
     headers: { Accept: 'application/json' },
+    // web-features data.json is >2MB; Next fetch Data Cache rejects it.
+    // Lifetime comes from the surrounding `use cache` / cacheLife instead.
+    cache: 'no-store',
   });
   if (!response.ok) {
-    throw new Error(`Failed to fetch ${key}: ${response.status}`);
+    throw new Error(`Failed to fetch ${label}: ${response.status}`);
   }
-  const value = (await response.json()) as T;
-  cache.set(key, { expires: Date.now() + CACHE_TTL_MS, value });
-  return value;
+  return (await response.json()) as T;
 }
 
 async function loadSources(): Promise<{
   data: WebFeaturesData;
   mdnDocs: MdnDocsMap;
 }> {
+  'use cache';
+  cacheLife(BASELINE_CACHE_LIFE);
+  cacheTag('web-features');
+
   const [data, mdnDocs] = await Promise.all([
-    cachedFetchJson<WebFeaturesData>('web-features', WEB_FEATURES_URL),
-    cachedFetchJson<MdnDocsMap>('mdn-docs', MDN_DOCS_URL).catch(
+    fetchJson<WebFeaturesData>(WEB_FEATURES_URL, 'web-features'),
+    fetchJson<MdnDocsMap>(MDN_DOCS_URL, 'mdn-docs').catch(
       () => ({}) as MdnDocsMap,
     ),
   ]);
@@ -219,6 +218,10 @@ function sortByDateDesc(features: BaselineFeature[]): BaselineFeature[] {
 export async function getNewlyAvailableForMonth(
   slug: MonthSlug,
 ): Promise<MonthBaselineResult> {
+  'use cache';
+  cacheLife(BASELINE_CACHE_LIFE);
+  cacheTag('baseline', `month-${slug}`);
+
   const targetMonth = String(monthNumber(slug)).padStart(2, '0');
 
   try {
@@ -280,9 +283,12 @@ export async function getNewlyAvailableForMonth(
   }
 }
 
-export async function getWidelyAvailable(
-  now = new Date(),
-): Promise<WidelyAvailableResult> {
+export async function getWidelyAvailable(): Promise<WidelyAvailableResult> {
+  'use cache';
+  cacheLife(BASELINE_CACHE_LIFE);
+  cacheTag('baseline', 'widely');
+
+  const now = new Date();
   const next = nextUtcMonth(now);
   const nextMonthLabel =
     next.slug.charAt(0).toUpperCase() + next.slug.slice(1);

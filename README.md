@@ -6,16 +6,14 @@ Pick a month (`/july`, `/march`, …) for newly available history, or open `/wid
 
 ## Stack
 
-- [Waku](https://waku.gg/) (React Server Components)
+- [Next.js](https://nextjs.org/) (App Router, preview)
 - React 19 + React Compiler
 - Tailwind CSS 4
 - TypeScript
 
 ## Data
 
-Baseline dates come from [`web-features`](https://github.com/web-platform-dx/web-features). MDN links are resolved via the [web-features-mappings](https://github.com/web-platform-dx/web-features-mappings) MDN docs map. Both are fetched when a page is (re)generated and cached in memory for one week.
-
-Pages stay `dynamic` but are cached on the Vercel CDN for **one week** (`s-maxage=604800` + `stale-while-revalidate`), so Baseline updates show up without a redeploy — ISR-style via `Cache-Control`.
+Baseline dates come from [`web-features`](https://github.com/web-platform-dx/web-features). MDN links are resolved via the [web-features-mappings](https://github.com/web-platform-dx/web-features-mappings) MDN docs map. Both are fetched when a page is (re)generated and cached for one week (`revalidate = 604800`).
 
 Only features in the JavaScript group (and its subgroups) are included. “Coming next month” on `/widely` projects graduations as **30 months after** each feature’s Baseline low date (features that are still newly available).
 
@@ -28,12 +26,11 @@ npm run dev
 
 Then open [http://localhost:3000](http://localhost:3000).
 
-| Script        | Description              |
-| ------------- | ------------------------ |
-| `npm run dev` | Start the Waku dev server |
-| `npm run build` | Production build       |
-| `npm start`   | Serve the production build |
-| `npm run typegen` | Regenerate router types |
+| Script          | Description                |
+| --------------- | -------------------------- |
+| `npm run dev`   | Start the Next.js dev server |
+| `npm run build` | Production build           |
+| `npm start`     | Serve the production build |
 
 ## Routes
 

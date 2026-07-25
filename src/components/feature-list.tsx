@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { BaselineFeature, YearGroup } from '../lib/baseline';
+import type { BaselineFeature, YearGroup } from '@/lib/baseline';
 
 type FeatureListProps = {
   groups: YearGroup[];

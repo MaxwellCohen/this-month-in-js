@@ -1,29 +1,24 @@
 {
   "name": "on-this-month-in-js",
   "version": "0.0.0",
-  "type": "module",
   "private": true,
   "scripts": {
-    "dev": "waku dev",
-    "build": "waku build",
-    "start": "waku start",
-    "typegen": "waku router typegen"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
-    "hono": "^4.12.14",
-    "react": "experimental",
-    "react-dom": "experimental",
-    "react-server-dom-webpack": "experimental",
-    "waku": "1.0.0-beta.8"
+    "next": "preview",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@rolldown/plugin-babel": "^0.2.3",
-    "@tailwindcss/vite": "4.3.3",
-    "@types/react": "19.2.3",
-    "@types/react-dom": "19.2.3",
-    "@vitejs/plugin-react": "^6.0.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.2.3",
+    "@types/react-dom": "^19.2.3",
     "babel-plugin-react-compiler": "^1.0.0",
     "tailwindcss": "^4.3.3",
-    "typescript": "^6.0.3"
+    "typescript": "^5.9.3"
   }
 }

@@ -1,12 +1,14 @@
-import { Link } from 'waku';
+import Link from 'next/link';
+import { cacheLife, cacheTag } from 'next/cache';
 
-import { FeatureList, FlatFeatureList } from '../components/feature-list';
-import { MonthNav } from '../components/month-nav';
+import { FeatureList, FlatFeatureList } from '@/components/feature-list';
+import { MonthNav } from '@/components/month-nav';
 import {
+  BASELINE_CACHE_LIFE,
   getNewlyAvailableForMonth,
   getWidelyAvailable,
-} from '../lib/baseline';
-import { currentMonthSlug, monthLabel } from '../lib/months';
+} from '@/lib/baseline';
+import { currentMonthSlug, monthLabel } from '@/lib/months';
 
 const sectionTitle =
   'mb-2 flex items-baseline justify-between gap-4 border-b border-line pb-2';
@@ -18,6 +20,14 @@ const ctaBase =
   'inline-flex flex-col gap-[0.2rem] border px-[1.15rem] py-[0.85rem] font-display text-[1.05rem] font-bold tracking-[-0.02em] no-underline transition-[border-color,color,background] duration-150 motion-reduce:transition-none';
 
 export default async function HomePage() {
+  return <HomeContent />;
+}
+
+async function HomeContent() {
+  'use cache';
+  cacheLife(BASELINE_CACHE_LIFE);
+  cacheTag('baseline', 'home');
+
   const thisMonth = currentMonthSlug();
   const thisMonthLabel = monthLabel(thisMonth);
 
@@ -35,12 +45,6 @@ export default async function HomePage() {
 
   return (
     <div className="max-w-content">
-      <title>On This Month in JavaScript</title>
-      <meta
-        name="description"
-        content="Browse JavaScript features by when they became Baseline newly available or widely available."
-      />
-
       <section className="pt-[clamp(1.75rem,8vh,3.5rem)] pb-9">
         <h1 className="font-display mb-4 animate-landing-rise text-[clamp(2.1rem,6vw,3.4rem)] leading-[1.02] font-extrabold tracking-[-0.045em] text-ink motion-reduce:animate-none">
           On This Month in JavaScript
@@ -51,7 +55,8 @@ export default async function HomePage() {
         </p>
         <div className="flex animate-landing-rise flex-wrap gap-x-4 gap-y-3 [animation-delay:160ms] motion-reduce:animate-none">
           <Link
-            to={`/${thisMonth}`}
+            href={`/${thisMonth}`}
+            prefetch
             className={`${ctaBase} border-accent bg-accent text-bg hover:border-accent-bright hover:bg-accent-bright hover:text-bg`}
           >
             This month
@@ -60,7 +65,8 @@ export default async function HomePage() {
             </span>
           </Link>
           <Link
-            to="/widely"
+            href="/widely"
+            prefetch
             className={`${ctaBase} border-line bg-[color-mix(in_oklab,var(--color-bg-elevated)_80%,transparent)] text-ink hover:border-[color-mix(in_oklab,var(--color-accent)_45%,var(--color-line))] hover:text-accent`}
           >
             Widely available
@@ -95,7 +101,9 @@ export default async function HomePage() {
         <p className={sectionLede}>
           Features that hit Baseline newly available in {thisMonthLabel}, any
           year.{' '}
-          <Link to={`/${thisMonth}`}>Open the full {thisMonthLabel} page</Link>
+          <Link href={`/${thisMonth}`} prefetch>
+            Open the full {thisMonthLabel} page
+          </Link>
         </p>
         <FeatureList
           groups={monthResult.groups}
@@ -119,7 +127,9 @@ export default async function HomePage() {
         <p className={sectionLede}>
           Newly available features projected to become widely available next
           month.{' '}
-          <Link to="/widely">See all widely available</Link>
+          <Link href="/widely" prefetch>
+            See all widely available
+          </Link>
         </p>
         <FlatFeatureList
           features={graduating}
@@ -130,9 +140,3 @@ export default async function HomePage() {
     </div>
   );
 }
-
-export const getConfig = async () => {
-  return {
-    render: 'dynamic',
-  } as const;
-};

@@ -1,11 +1,11 @@
-import { Link } from 'waku';
+import Link from 'next/link';
 
 import {
   MONTH_SLUGS,
   adjacentMonth,
   monthLabel,
   type MonthSlug,
-} from '../lib/months';
+} from '@/lib/months';
 
 type MonthNavProps = {
   current: MonthSlug;
@@ -23,13 +23,15 @@ export function MonthNav({ current, className = '' }: MonthNavProps) {
     >
       <div className="my-4 mb-5 flex justify-between gap-4">
         <Link
-          to={`/${prev}`}
+          href={`/${prev}`}
+          prefetch
           className="font-mono text-[0.8rem] text-muted no-underline hover:text-accent"
         >
           <span aria-hidden="true">←</span> {monthLabel(prev)}
         </Link>
         <Link
-          to={`/${next}`}
+          href={`/${next}`}
+          prefetch
           className="font-mono text-[0.8rem] text-muted no-underline hover:text-accent"
         >
           {monthLabel(next)} <span aria-hidden="true">→</span>
@@ -41,7 +43,8 @@ export function MonthNav({ current, className = '' }: MonthNavProps) {
           return (
             <li key={slug}>
               <Link
-                to={`/${slug}`}
+                href={`/${slug}`}
+                prefetch
                 className={
                   active
                     ? 'inline-block border border-accent bg-accent px-[0.55rem] py-[0.35rem] font-mono text-[0.72rem] tracking-[0.06em] text-bg uppercase no-underline hover:text-bg'

@@ -1,5 +1,11 @@
-import { FlatFeatureList } from '../components/feature-list';
-import { getWidelyAvailable } from '../lib/baseline';
+import type { Metadata } from 'next';
+import { cacheLife, cacheTag } from 'next/cache';
+
+import { FlatFeatureList } from '@/components/feature-list';
+import {
+  BASELINE_CACHE_LIFE,
+  getWidelyAvailable,
+} from '@/lib/baseline';
 
 const sectionTitle =
   'mb-2 flex items-baseline justify-between gap-4 border-b border-line pb-2';
@@ -8,7 +14,21 @@ const sectionCount =
   'font-mono text-xs tracking-[0.04em] text-muted uppercase';
 const sectionLede = 'mb-5 text-[0.95rem] text-muted';
 
+export const metadata: Metadata = {
+  title: 'Widely available',
+  description:
+    'JavaScript features that are Baseline widely available, and which ones graduate next month.',
+};
+
 export default async function WidelyPage() {
+  return <WidelyContent />;
+}
+
+async function WidelyContent() {
+  'use cache';
+  cacheLife(BASELINE_CACHE_LIFE);
+  cacheTag('baseline', 'widely-page');
+
   const {
     graduatingNextMonth,
     widelyAvailable,
@@ -18,12 +38,6 @@ export default async function WidelyPage() {
 
   return (
     <div className="max-w-content">
-      <title>Widely available — On This Month in JavaScript</title>
-      <meta
-        name="description"
-        content="JavaScript features that are Baseline widely available, and which ones graduate next month."
-      />
-
       <section className="mb-8">
         <p className="font-display mb-3 text-[clamp(1.75rem,4.5vw,2.6rem)] leading-[1.05] font-extrabold tracking-[-0.04em] text-ink">
           On This Month in JavaScript
@@ -101,9 +115,3 @@ export default async function WidelyPage() {
     </div>
   );
 }
-
-export const getConfig = async () => {
-  return {
-    render: 'dynamic',
-  } as const;
-};

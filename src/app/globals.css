@@ -9,9 +9,9 @@
   --color-accent: #e4c35a;
   --color-accent-bright: #f3d97a;
   --color-danger: #ff7a6e;
-  --font-display: 'Bricolage Grotesque', Georgia, serif;
-  --font-body: 'Source Sans 3', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-display: var(--font-display-family), Georgia, serif;
+  --font-body: var(--font-body-family), system-ui, sans-serif;
+  --font-mono: var(--font-mono-family), ui-monospace, monospace;
   --container-content: 44rem;
   --container-shell: calc(44rem + 6rem);
   --animate-landing-rise: landing-rise 0.55s ease both;

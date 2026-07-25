@@ -1,4 +1,4 @@
-import { MDN_DOCS_URL, WEB_FEATURES_URL } from '../lib/baseline';
+import { MDN_DOCS_URL, WEB_FEATURES_URL } from '@/lib/baseline';
 
 export const Footer = () => {
   return (
