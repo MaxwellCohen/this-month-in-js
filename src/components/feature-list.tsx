@@ -109,7 +109,7 @@ function FeatureRow({ feature }: { feature: BaselineFeature }) {
           </p>
         )}
       </div>
-      <div className="-order-1 flex flex-col items-start gap-[0.55rem] pt-0 text-left sm:order-0 sm:items-end sm:pt-[0.2rem] sm:text-right">
+      <div className="flex flex-col items-start gap-[0.55rem] pt-0 text-left sm:items-end sm:pt-[0.2rem] sm:text-right">
         <FeatureDate label="Newly available" iso={feature.newlyAvailableDate} />
         {feature.widelyAvailableDate ? (
           <FeatureDate
