@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   reactCompiler: true,
   experimental: {
-    viewTransition: true,
+        turbopackRustReactCompiler: true,
+        turbopackCjsTreeShaking: true,
   },
   // Next.js auto-generated these; keep repo focused on the app itself
   agentRules: false,
