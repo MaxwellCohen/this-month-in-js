@@ -192,8 +192,8 @@ export function FeatureList({
     return (
       <StatePanel>
         <p>
-          No JavaScript features became Baseline newly available in{' '}
-          {monthLabel} (any year) — yet.
+          No HTML, CSS, or JavaScript features became Baseline newly available
+          in {monthLabel} (any year) — yet.
         </p>
       </StatePanel>
     );

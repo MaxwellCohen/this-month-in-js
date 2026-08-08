@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: '%s — On This Month in JavaScript',
   },
   description:
-    'Browse JavaScript features by when they became Baseline newly available or widely available.',
+    'Browse HTML, CSS, and JavaScript features by when they became Baseline newly available or widely available.',
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },

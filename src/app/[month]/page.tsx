@@ -34,7 +34,7 @@ export async function generateMetadata({
   const label = monthLabel(month);
   return {
     title: label,
-    description: `JavaScript features that became Baseline newly available in ${label}, across every year.`,
+    description: `HTML, CSS, and JavaScript features that became Baseline newly available in ${label}, across every year.`,
   };
 }
 
@@ -96,7 +96,7 @@ async function MonthContent({ month }: { month: MonthSlug }) {
           {label}
         </h1>
         <p className="m-0 max-w-xl text-[1.05rem] text-muted">
-          JS features that became{' '}
+          HTML, CSS, and JS features that became{' '}
           <a
             href="https://web.dev/baseline"
             target="_blank"

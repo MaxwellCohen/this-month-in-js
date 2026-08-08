@@ -111,12 +111,15 @@ async function loadSources(): Promise<{
   return { data, mdnDocs };
 }
 
-function isJsGroup(
+/** Top-level web-features groups included in this app (and their subgroups). */
+const INCLUDED_ROOT_GROUPS = new Set(['javascript', 'html', 'css']);
+
+function isIncludedGroup(
   groupId: string,
   groups: WebFeaturesData['groups'],
   seen = new Set<string>(),
 ): boolean {
-  if (groupId === 'javascript') {
+  if (INCLUDED_ROOT_GROUPS.has(groupId)) {
     return true;
   }
   if (seen.has(groupId)) {
@@ -124,7 +127,7 @@ function isJsGroup(
   }
   seen.add(groupId);
   const parent = groups[groupId]?.parent;
-  return parent ? isJsGroup(parent, groups, seen) : false;
+  return parent ? isIncludedGroup(parent, groups, seen) : false;
 }
 
 function featureGroups(feature: WebFeature): string[] {
@@ -134,11 +137,11 @@ function featureGroups(feature: WebFeature): string[] {
   return Array.isArray(feature.group) ? feature.group : [feature.group];
 }
 
-function isJsFeature(
+function isIncludedFeature(
   feature: WebFeature,
   groups: WebFeaturesData['groups'],
 ): boolean {
-  return featureGroups(feature).some((g) => isJsGroup(g, groups));
+  return featureGroups(feature).some((g) => isIncludedGroup(g, groups));
 }
 
 function normalizeMdn(
@@ -240,7 +243,7 @@ export async function getNewlyAvailableForMonth(
       if (monthKey(lowDate) !== targetMonth) {
         continue;
       }
-      if (!isJsFeature(feature, data.groups)) {
+      if (!isIncludedFeature(feature, data.groups)) {
         continue;
       }
 
@@ -303,7 +306,7 @@ export async function getWidelyAvailable(): Promise<WidelyAvailableResult> {
       if (feature.kind && feature.kind !== 'feature') {
         continue;
       }
-      if (!isJsFeature(feature, data.groups)) {
+      if (!isIncludedFeature(feature, data.groups)) {
         continue;
       }
 

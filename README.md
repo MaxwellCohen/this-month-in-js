@@ -1,6 +1,6 @@
 # On This Month in JavaScript
 
-Browse JavaScript features by when they crossed [Baseline](https://web.dev/baseline) thresholds — newly available by calendar month, or widely available across the platform.
+Browse HTML, CSS, and JavaScript features by when they crossed [Baseline](https://web.dev/baseline) thresholds — newly available by calendar month, or widely available across the platform.
 
 Pick a month (`/july`, `/march`, …) for newly available history, or open `/widely` for features that are widely available and what’s graduating next month.
 
@@ -15,7 +15,7 @@ Pick a month (`/july`, `/march`, …) for newly available history, or open `/wid
 
 Baseline dates come from [`web-features`](https://github.com/web-platform-dx/web-features). MDN links are resolved via the [web-features-mappings](https://github.com/web-platform-dx/web-features-mappings) MDN docs map. Both are fetched when a page is (re)generated and cached for one week (`revalidate = 604800`).
 
-Only features in the JavaScript group (and its subgroups) are included. “Coming next month” on `/widely` projects graduations as **30 months after** each feature’s Baseline low date (features that are still newly available).
+Only features in the JavaScript, HTML, and CSS groups (and their subgroups) are included. “Coming next month” on `/widely` projects graduations as **30 months after** each feature’s Baseline low date (features that are still newly available).
 
 ## Develop
 

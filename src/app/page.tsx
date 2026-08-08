@@ -50,8 +50,8 @@ async function HomeContent() {
           On This Month in JavaScript
         </h1>
         <p className="mb-8 max-w-xl animate-landing-rise text-[1.1rem] text-muted [animation-delay:80ms] motion-reduce:animate-none">
-          See when JS features crossed Baseline — newly available by month, or
-          widely available across the platform.
+          See when HTML, CSS, and JS features crossed Baseline — newly available
+          by month, or widely available across the platform.
         </p>
         <div className="flex animate-landing-rise flex-wrap gap-x-4 gap-y-3 [animation-delay:160ms] motion-reduce:animate-none">
           <Link
@@ -79,8 +79,8 @@ async function HomeContent() {
           <span className={sectionHeading}>Browse by month</span>
         </h2>
         <p className={sectionLede}>
-          Jump to any calendar month to see which JS features became Baseline
-          newly available in that month, across every year.
+          Jump to any calendar month to see which HTML, CSS, and JS features
+          became Baseline newly available in that month, across every year.
         </p>
         <MonthNav current={thisMonth} className="mb-0 border-t-0 pt-0" />
       </section>
@@ -133,7 +133,7 @@ async function HomeContent() {
         </p>
         <FlatFeatureList
           features={graduating}
-          emptyMessage={`No JavaScript features are projected to become Baseline widely available in ${nextMonthLabel}.`}
+          emptyMessage={`No HTML, CSS, or JavaScript features are projected to become Baseline widely available in ${nextMonthLabel}.`}
           error={widelyResult.error}
         />
       </section>

@@ -17,7 +17,7 @@ const sectionLede = 'mb-5 text-[0.95rem] text-muted';
 export const metadata: Metadata = {
   title: 'Widely available',
   description:
-    'JavaScript features that are Baseline widely available, and which ones graduate next month.',
+    'HTML, CSS, and JavaScript features that are Baseline widely available, and which ones graduate next month.',
 };
 
 export default async function WidelyPage() {
@@ -46,7 +46,7 @@ async function WidelyContent() {
           widely available
         </h1>
         <p className="m-0 max-w-xl text-[1.05rem] text-muted">
-          JS features that are{' '}
+          HTML, CSS, and JS features that are{' '}
           <a
             href="https://web.dev/baseline"
             target="_blank"
@@ -90,7 +90,7 @@ async function WidelyContent() {
             </p>
             <FlatFeatureList
               features={graduatingNextMonth}
-              emptyMessage={`No JavaScript features are projected to become Baseline widely available in ${nextMonthLabel}.`}
+              emptyMessage={`No HTML, CSS, or JavaScript features are projected to become Baseline widely available in ${nextMonthLabel}.`}
             />
           </section>
 
@@ -107,7 +107,7 @@ async function WidelyContent() {
             </p>
             <FlatFeatureList
               features={widelyAvailable}
-              emptyMessage="No JavaScript features are Baseline widely available yet."
+              emptyMessage="No HTML, CSS, or JavaScript features are Baseline widely available yet."
             />
           </section>
         </>
