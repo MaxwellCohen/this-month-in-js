@@ -3,20 +3,13 @@ import { cacheLife, cacheTag } from 'next/cache';
 
 import { FeatureList, FlatFeatureList } from '@/components/feature-list';
 import { MonthNav } from '@/components/month-nav';
+import { SectionLede, SectionTitle } from '@/components/section';
 import {
   BASELINE_CACHE_LIFE,
   getNewlyAvailableForMonth,
   getWidelyAvailable,
 } from '@/lib/baseline';
 import { currentMonthSlug, monthLabel } from '@/lib/months';
-
-const sectionTitle = 'mb-2 flex items-baseline gap-3';
-const sectionHeading =
-  'font-display text-[1.75rem] leading-none tracking-[-0.01em] italic';
-const sectionRule = 'h-px flex-1 bg-line';
-const sectionCount =
-  'font-mono text-[0.7rem] tracking-[0.08em] text-muted uppercase';
-const sectionLede = 'mb-6 max-w-xl text-[0.95rem] text-muted';
 
 export default async function HomePage() {
   return <HomeContent />;
@@ -84,38 +77,34 @@ async function HomeContent() {
       </section>
 
       <section className="mt-12" aria-labelledby="browse-months">
-        <h2 id="browse-months" className={sectionTitle}>
-          <span className={sectionHeading}>Browse by month</span>
-          <span className={sectionRule} aria-hidden="true" />
-        </h2>
-        <p className={sectionLede}>
+        <SectionTitle id="browse-months">Browse by month</SectionTitle>
+        <SectionLede>
           Jump to any calendar month to see which HTML, CSS, and JS features
           became Baseline newly available in that month, across every year.
-        </p>
+        </SectionLede>
         <MonthNav current={thisMonth} className="mb-0" />
       </section>
 
       <section className="mt-14" aria-labelledby="this-month">
-        <h2 id="this-month" className={sectionTitle}>
-          <span className={sectionHeading}>
-            Newly available in {thisMonthLabel}
-          </span>
-          <span className={sectionRule} aria-hidden="true" />
-          {!monthResult.error ? (
-            <span className={sectionCount}>
-              {monthTotal === 0
+        <SectionTitle
+          id="this-month"
+          count={
+            !monthResult.error
+              ? monthTotal === 0
                 ? 'None yet'
-                : `${monthTotal} ${monthTotal === 1 ? 'feature' : 'features'}`}
-            </span>
-          ) : null}
-        </h2>
-        <p className={sectionLede}>
+                : `${monthTotal} ${monthTotal === 1 ? 'feature' : 'features'}`
+              : undefined
+          }
+        >
+          Newly available in {thisMonthLabel}
+        </SectionTitle>
+        <SectionLede>
           Features that hit Baseline newly available in {thisMonthLabel}, any
           year.{' '}
           <Link href={`/${thisMonth}`} prefetch>
             Open the full {thisMonthLabel} page
           </Link>
-        </p>
+        </SectionLede>
         <FeatureList
           groups={monthResult.groups}
           monthLabel={thisMonthLabel}
@@ -124,25 +113,23 @@ async function HomeContent() {
       </section>
 
       <section className="mt-14" aria-labelledby="graduating">
-        <h2 id="graduating" className={sectionTitle}>
-          <span className={sectionHeading}>
-            Graduating in {nextMonthLabel}
-          </span>
-          <span className={sectionRule} aria-hidden="true" />
-          {!widelyResult.error ? (
-            <span className={sectionCount}>
-              {graduating.length}{' '}
-              {graduating.length === 1 ? 'feature' : 'features'}
-            </span>
-          ) : null}
-        </h2>
-        <p className={sectionLede}>
+        <SectionTitle
+          id="graduating"
+          count={
+            !widelyResult.error
+              ? `${graduating.length} ${graduating.length === 1 ? 'feature' : 'features'}`
+              : undefined
+          }
+        >
+          Graduating in {nextMonthLabel}
+        </SectionTitle>
+        <SectionLede>
           Newly available features projected to become widely available next
           month.{' '}
           <Link href="/widely" prefetch>
             See all widely available
           </Link>
-        </p>
+        </SectionLede>
         <FlatFeatureList
           features={graduating}
           emptyMessage={`No HTML, CSS, or JavaScript features are projected to become Baseline widely available in ${nextMonthLabel}.`}
