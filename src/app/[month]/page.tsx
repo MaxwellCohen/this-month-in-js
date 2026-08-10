@@ -49,12 +49,12 @@ export default function MonthPage({ params }: MonthPageProps) {
 function MonthPageFallback() {
   return (
     <div className="max-w-content">
-      <section className="mb-8">
-        <p className="font-display mb-3 text-[clamp(1.75rem,4.5vw,2.6rem)] leading-[1.05] font-extrabold tracking-[-0.04em] text-ink">
-          On This Month in JavaScript
+      <section className="mb-10 pt-4">
+        <p className="mb-4 font-mono text-[0.72rem] tracking-[0.18em] text-accent uppercase">
+          Newly available
         </p>
         <div
-          className="mb-[0.85rem] h-[clamp(2.5rem,8vw,4.5rem)] w-48 animate-pulse rounded-sm bg-[color-mix(in_oklab,var(--color-line)_55%,transparent)]"
+          className="mb-4 h-[clamp(3rem,10vw,5.5rem)] w-64 animate-pulse rounded-xl bg-[color-mix(in_oklab,var(--color-line)_55%,transparent)]"
           aria-hidden
         />
         <p className="m-0 max-w-xl text-[1.05rem] text-muted">Loading…</p>
@@ -88,14 +88,14 @@ async function MonthContent({ month }: { month: MonthSlug }) {
 
   return (
     <div className="max-w-content">
-      <section className="mb-8">
-        <p className="font-display mb-3 text-[clamp(1.75rem,4.5vw,2.6rem)] leading-[1.05] font-extrabold tracking-[-0.04em] text-ink">
-          On This Month in JavaScript
+      <section className="mb-10 pt-4">
+        <p className="mb-4 animate-rise font-mono text-[0.72rem] tracking-[0.18em] text-accent uppercase motion-reduce:animate-none">
+          Newly available
         </p>
-        <h1 className="font-mono mb-[0.85rem] text-[clamp(2.5rem,8vw,4.5rem)] leading-[0.95] font-medium tracking-[-0.06em] text-accent lowercase">
+        <h1 className="font-display mb-4 animate-rise text-[clamp(3rem,10vw,5.5rem)] leading-[0.95] font-normal tracking-[-0.015em] text-ink italic [animation-delay:60ms] motion-reduce:animate-none">
           {label}
         </h1>
-        <p className="m-0 max-w-xl text-[1.05rem] text-muted">
+        <p className="m-0 max-w-xl animate-rise text-[1.05rem] text-muted [animation-delay:120ms] motion-reduce:animate-none">
           HTML, CSS, and JS features that became{' '}
           <a
             href="https://web.dev/baseline"
@@ -107,7 +107,7 @@ async function MonthContent({ month }: { month: MonthSlug }) {
           in {label}
         </p>
         {!error ? (
-          <p className="mt-4 font-mono text-[0.8rem] tracking-[0.04em] text-accent uppercase">
+          <p className="mt-5 animate-rise font-mono text-[0.72rem] tracking-[0.1em] text-muted uppercase [animation-delay:180ms] motion-reduce:animate-none">
             {total === 0
               ? 'No features yet'
               : `${total} ${total === 1 ? 'feature' : 'features'} · ${groups.length} ${groups.length === 1 ? 'year' : 'years'}`}

@@ -12,43 +12,47 @@ type MonthNavProps = {
   className?: string;
 };
 
+const arrowLink =
+  'group inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-[0.75rem] text-muted no-underline transition-colors duration-150 hover:border-line-bright hover:text-ink';
+
 export function MonthNav({ current, className = '' }: MonthNavProps) {
   const prev = adjacentMonth(current, -1);
   const next = adjacentMonth(current, 1);
 
   return (
-    <nav
-      className={`mb-10 border-t border-line pt-2 ${className}`}
-      aria-label="Months"
-    >
-      <div className="my-4 mb-5 flex justify-between gap-4">
-        <Link
-          href={`/${prev}`}
-          prefetch
-          className="font-mono text-[0.8rem] text-muted no-underline hover:text-accent"
-        >
-          <span aria-hidden="true">←</span> {monthLabel(prev)}
+    <nav className={`mb-12 ${className}`} aria-label="Months">
+      <div className="mb-4 flex justify-between gap-4">
+        <Link href={`/${prev}`} prefetch className={arrowLink}>
+          <span
+            aria-hidden="true"
+            className="transition-transform duration-150 group-hover:-translate-x-0.5"
+          >
+            ←
+          </span>
+          {monthLabel(prev)}
         </Link>
-        <Link
-          href={`/${next}`}
-          prefetch
-          className="font-mono text-[0.8rem] text-muted no-underline hover:text-accent"
-        >
-          {monthLabel(next)} <span aria-hidden="true">→</span>
+        <Link href={`/${next}`} prefetch className={arrowLink}>
+          {monthLabel(next)}
+          <span
+            aria-hidden="true"
+            className="transition-transform duration-150 group-hover:translate-x-0.5"
+          >
+            →
+          </span>
         </Link>
       </div>
-      <ul className="m-0 flex list-none flex-wrap gap-[0.4rem] p-0">
+      <ul className="m-0 flex list-none flex-wrap gap-1.5 rounded-2xl border border-line/70 bg-bg-elevated/50 p-1.5">
         {MONTH_SLUGS.map((slug) => {
           const active = slug === current;
           return (
-            <li key={slug}>
+            <li key={slug} className="flex-1">
               <Link
                 href={`/${slug}`}
                 prefetch
                 className={
                   active
-                    ? 'inline-block border border-accent bg-accent px-[0.55rem] py-[0.35rem] font-mono text-[0.72rem] tracking-[0.06em] text-bg uppercase no-underline hover:text-bg'
-                    : 'inline-block border border-transparent px-[0.55rem] py-[0.35rem] font-mono text-[0.72rem] tracking-[0.06em] text-muted uppercase no-underline transition-[color,border-color,background] duration-150 hover:border-line hover:text-ink'
+                    ? 'block rounded-[0.65rem] bg-accent px-2 py-2 text-center font-mono text-[0.72rem] font-medium tracking-[0.06em] text-bg uppercase no-underline'
+                    : 'block rounded-[0.65rem] px-2 py-2 text-center font-mono text-[0.72rem] tracking-[0.06em] text-muted uppercase no-underline transition-colors duration-150 hover:bg-line/50 hover:text-ink'
                 }
                 aria-current={active ? 'page' : undefined}
               >

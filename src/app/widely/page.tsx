@@ -7,12 +7,13 @@ import {
   getWidelyAvailable,
 } from '@/lib/baseline';
 
-const sectionTitle =
-  'mb-2 flex items-baseline justify-between gap-4 border-b border-line pb-2';
-const sectionHeading = 'font-display text-2xl font-bold tracking-[-0.03em]';
+const sectionTitle = 'mb-2 flex items-baseline gap-3';
+const sectionHeading =
+  'font-display text-[1.75rem] leading-none tracking-[-0.01em] italic';
+const sectionRule = 'h-px flex-1 bg-line';
 const sectionCount =
-  'font-mono text-xs tracking-[0.04em] text-muted uppercase';
-const sectionLede = 'mb-5 text-[0.95rem] text-muted';
+  'font-mono text-[0.7rem] tracking-[0.08em] text-muted uppercase';
+const sectionLede = 'mb-6 max-w-xl text-[0.95rem] text-muted';
 
 export const metadata: Metadata = {
   title: 'Widely available',
@@ -38,14 +39,14 @@ async function WidelyContent() {
 
   return (
     <div className="max-w-content">
-      <section className="mb-8">
-        <p className="font-display mb-3 text-[clamp(1.75rem,4.5vw,2.6rem)] leading-[1.05] font-extrabold tracking-[-0.04em] text-ink">
-          On This Month in JavaScript
+      <section className="mb-10 pt-4">
+        <p className="mb-4 animate-rise font-mono text-[0.72rem] tracking-[0.18em] text-accent uppercase motion-reduce:animate-none">
+          Across the platform
         </p>
-        <h1 className="font-mono mb-[0.85rem] text-[clamp(2.5rem,8vw,4.5rem)] leading-[0.95] font-medium tracking-[-0.06em] text-accent lowercase">
-          widely available
+        <h1 className="font-display mb-4 animate-rise text-[clamp(3rem,10vw,5.5rem)] leading-[0.95] font-normal tracking-[-0.015em] text-ink italic [animation-delay:60ms] motion-reduce:animate-none">
+          Widely available
         </h1>
-        <p className="m-0 max-w-xl text-[1.05rem] text-muted">
+        <p className="m-0 max-w-xl animate-rise text-[1.05rem] text-muted [animation-delay:120ms] motion-reduce:animate-none">
           HTML, CSS, and JS features that are{' '}
           <a
             href="https://web.dev/baseline"
@@ -57,7 +58,7 @@ async function WidelyContent() {
           , plus what’s graduating next month
         </p>
         {!error ? (
-          <p className="mt-4 font-mono text-[0.8rem] tracking-[0.04em] text-accent uppercase">
+          <p className="mt-5 animate-rise font-mono text-[0.72rem] tracking-[0.1em] text-muted uppercase [animation-delay:180ms] motion-reduce:animate-none">
             {widelyAvailable.length} widely available
             {graduatingNextMonth.length > 0
               ? ` · ${graduatingNextMonth.length} graduating in ${nextMonthLabel}`
@@ -79,6 +80,7 @@ async function WidelyContent() {
               <span className={sectionHeading}>
                 Coming in {nextMonthLabel}
               </span>
+              <span className={sectionRule} aria-hidden="true" />
               <span className={sectionCount}>
                 {graduatingNextMonth.length}{' '}
                 {graduatingNextMonth.length === 1 ? 'feature' : 'features'}
@@ -97,6 +99,7 @@ async function WidelyContent() {
           <section className="mt-11">
             <h2 className={sectionTitle}>
               <span className={sectionHeading}>All widely available</span>
+              <span className={sectionRule} aria-hidden="true" />
               <span className={sectionCount}>
                 {widelyAvailable.length}{' '}
                 {widelyAvailable.length === 1 ? 'feature' : 'features'}

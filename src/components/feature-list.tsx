@@ -30,41 +30,42 @@ function formatDate(iso: string): string {
   });
 }
 
-function FeatureDate({
+function DateChip({
   label,
   iso,
+  highlight = false,
 }: {
   label: string;
   iso: string;
+  highlight?: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-[0.15rem]">
-      <span className="font-mono text-[0.65rem] tracking-[0.06em] text-[color-mix(in_oklab,var(--color-muted)_82%,var(--color-ink))] uppercase">
-        {label}
-      </span>
-      <time
-        className="font-mono text-xs tracking-[0.03em] text-muted whitespace-nowrap"
-        dateTime={iso}
-      >
-        {formatDate(iso)}
-      </time>
-    </div>
+    <span
+      className={
+        highlight
+          ? 'inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-2.5 py-1 font-mono text-[0.68rem] tracking-[0.03em] whitespace-nowrap text-accent'
+          : 'inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-1 font-mono text-[0.68rem] tracking-[0.03em] whitespace-nowrap text-muted'
+      }
+    >
+      <span className="uppercase opacity-70">{label}</span>
+      <time dateTime={iso}>{formatDate(iso)}</time>
+    </span>
   );
 }
 
-function FeatureRow({ feature }: { feature: BaselineFeature }) {
+function FeatureCard({ feature }: { feature: BaselineFeature }) {
   const primary = feature.mdn[0];
 
   return (
-    <li className="grid grid-cols-1 items-start gap-[0.35rem] sm:grid-cols-[1fr_auto] sm:gap-x-6 sm:gap-y-4">
-      <div>
-        <h3 className="m-0 font-display text-[1.2rem] leading-tight font-bold tracking-[-0.02em]">
+    <li className="card-surface card-surface-hover p-5 sm:p-6">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+        <h3 className="m-0 text-[1.1rem] leading-snug font-semibold tracking-[-0.01em]">
           {primary ? (
             <a
               href={primary.url}
               target="_blank"
               rel="noreferrer"
-              className="bg-[linear-gradient(var(--color-accent),var(--color-accent))] bg-size-[0_2px] bg-bottom bg-no-repeat text-ink no-underline transition-[background-size,color] duration-200 hover:bg-size-[100%_2px] hover:text-accent motion-reduce:transition-none"
+              className="text-ink no-underline transition-colors duration-150 hover:text-accent"
             >
               {feature.name}
             </a>
@@ -72,51 +73,39 @@ function FeatureRow({ feature }: { feature: BaselineFeature }) {
             feature.name
           )}
         </h3>
-        {feature.description ? (
-          <p className="mt-[0.4rem] mb-0 text-[0.95rem] text-muted">
-            {feature.description}
-          </p>
-        ) : null}
-        {feature.mdn.length > 1 ? (
-          <ul className="mt-[0.35rem] mb-0 flex list-none flex-col gap-2 p-0 text-[0.85rem]">
-            {feature.mdn.map((doc) => (
-              <li key={doc.url}>
-                <a
-                  href={doc.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex min-h-12 items-center py-[0.65rem] text-muted hover:text-accent"
-                >
-                  {doc.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : primary ? (
-          <p className="mt-[0.35rem] mb-0 list-none p-0 text-[0.85rem]">
+        <div className="flex flex-wrap gap-1.5">
+          <DateChip label="New" iso={feature.newlyAvailableDate} highlight />
+          {feature.widelyAvailableDate ? (
+            <DateChip label="Wide" iso={feature.widelyAvailableDate} />
+          ) : null}
+        </div>
+      </div>
+      {feature.description ? (
+        <p className="mt-2 mb-0 max-w-152 text-[0.92rem] leading-relaxed text-muted">
+          {feature.description}
+        </p>
+      ) : null}
+      <div className="mt-3.5 flex flex-wrap gap-x-5 gap-y-1 text-[0.8rem]">
+        {feature.mdn.length > 0 ? (
+          feature.mdn.map((doc) => (
             <a
-              href={primary.url}
+              key={doc.url}
+              href={doc.url}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex min-h-12 items-center py-[0.65rem] text-muted hover:text-accent"
+              className="inline-flex items-center gap-1 font-mono text-[0.72rem] text-muted no-underline transition-colors duration-150 hover:text-accent"
             >
-              MDN docs
+              {feature.mdn.length > 1 ? doc.title : 'MDN docs'}
+              <span aria-hidden="true" className="text-[0.85em]">
+                ↗
+              </span>
             </a>
-          </p>
+          ))
         ) : (
-          <p className="mt-[0.35rem] mb-0 list-none p-0 text-[0.85rem] text-muted italic">
+          <span className="font-mono text-[0.72rem] text-muted/70 italic">
             No MDN page mapped yet
-          </p>
+          </span>
         )}
-      </div>
-      <div className="flex flex-col items-start gap-[0.55rem] pt-0 text-left sm:items-end sm:pt-[0.2rem] sm:text-right">
-        <FeatureDate label="Newly available" iso={feature.newlyAvailableDate} />
-        {feature.widelyAvailableDate ? (
-          <FeatureDate
-            label="Widely available"
-            iso={feature.widelyAvailableDate}
-          />
-        ) : null}
       </div>
     </li>
   );
@@ -133,13 +122,23 @@ function StatePanel({
     <div
       className={
         error
-          ? 'border border-dashed border-danger/40 bg-bg-elevated p-6 text-ink'
-          : 'border border-dashed border-line bg-bg-elevated p-6 text-muted'
+          ? 'rounded-xl border border-dashed border-danger/40 bg-bg-elevated/60 p-6 text-ink'
+          : 'rounded-xl border border-dashed border-line-bright bg-bg-elevated/60 p-6 text-muted'
       }
       role={error ? 'alert' : undefined}
     >
       {children}
     </div>
+  );
+}
+
+function CardGrid({ features }: { features: BaselineFeature[] }) {
+  return (
+    <ul className="m-0 flex list-none flex-col gap-3 p-0">
+      {features.map((feature) => (
+        <FeatureCard key={feature.id} feature={feature} />
+      ))}
+    </ul>
   );
 }
 
@@ -165,13 +164,7 @@ export function FlatFeatureList({
     );
   }
 
-  return (
-    <ul className="m-0 flex list-none flex-col gap-[1.35rem] p-0">
-      {features.map((feature) => (
-        <FeatureRow key={feature.id} feature={feature} />
-      ))}
-    </ul>
-  );
+  return <CardGrid features={features} />;
 }
 
 export function FeatureList({
@@ -200,23 +193,20 @@ export function FeatureList({
   }
 
   return (
-    <div className="flex flex-col gap-11">
+    <div className="flex flex-col gap-12">
       {groups.map((group) => (
         <section key={group.year}>
-          <h2 className="mb-4 flex items-baseline justify-between gap-4 border-b border-line pb-2">
-            <span className="font-display text-2xl font-bold tracking-[-0.03em]">
+          <h2 className="mb-4 flex items-baseline gap-3">
+            <span className="font-display text-[2rem] leading-none tracking-[-0.01em] text-ink italic">
               {group.year}
             </span>
-            <span className="font-mono text-xs tracking-[0.04em] text-muted uppercase">
+            <span className="h-px flex-1 bg-line" aria-hidden="true" />
+            <span className="font-mono text-[0.7rem] tracking-[0.08em] text-muted uppercase">
               {group.features.length}{' '}
               {group.features.length === 1 ? 'feature' : 'features'}
             </span>
           </h2>
-          <ul className="m-0 flex list-none flex-col gap-[1.35rem] p-0">
-            {group.features.map((feature) => (
-              <FeatureRow key={feature.id} feature={feature} />
-            ))}
-          </ul>
+          <CardGrid features={group.features} />
         </section>
       ))}
     </div>

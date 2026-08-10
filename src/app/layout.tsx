@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Bricolage_Grotesque, IBM_Plex_Mono, Source_Sans_3 } from 'next/font/google';
+import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
 import { Suspense, type ReactNode, ViewTransition } from 'react';
 
 import { Footer } from '@/components/footer';
@@ -7,22 +7,23 @@ import { Header } from '@/components/header';
 
 import './globals.css';
 
-const display = Bricolage_Grotesque({
+const display = Instrument_Serif({
   subsets: ['latin'],
   variable: '--font-display-family',
-  weight: ['500', '700', '800'],
+  weight: '400',
+  style: ['normal', 'italic'],
 });
 
-const mono = IBM_Plex_Mono({
+const mono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono-family',
   weight: ['400', '500'],
 });
 
-const body = Source_Sans_3({
+const body = Instrument_Sans({
   subsets: ['latin'],
   variable: '--font-body-family',
-  weight: ['400', '600'],
+  weight: ['400', '500', '600'],
   style: ['normal', 'italic'],
 });
 
@@ -53,7 +54,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         <div className="flex min-h-svh flex-col">
           <Header />
-          <main className="mx-auto w-full max-w-shell flex-1 px-6 pt-6 pb-16">
+          <main className="mx-auto w-full max-w-shell flex-1 px-6 pt-10 pb-20">
             <ViewTransition name="page-fade">
               <Suspense>{children}</Suspense>
             </ViewTransition>

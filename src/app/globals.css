@@ -1,36 +1,45 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-bg: #0b0d10;
-  --color-bg-elevated: #12151b;
-  --color-ink: #e8e6e1;
-  --color-muted: #8b909a;
-  --color-line: #242933;
-  --color-accent: #e4c35a;
-  --color-accent-bright: #f3d97a;
+  --color-bg: #070708;
+  --color-bg-elevated: #0e0e12;
+  --color-card: #0c0c10;
+  --color-ink: #f4f2ea;
+  --color-muted: #918f9a;
+  --color-line: #1e1e26;
+  --color-line-bright: #2c2c38;
+  --color-accent: #f7df1e;
+  --color-accent-soft: #d8c53a;
   --color-danger: #ff7a6e;
   --font-display: var(--font-display-family), Georgia, serif;
   --font-body: var(--font-body-family), system-ui, sans-serif;
   --font-mono: var(--font-mono-family), ui-monospace, monospace;
-  --container-content: 44rem;
-  --container-shell: calc(44rem + 6rem);
-  --animate-landing-rise: landing-rise 0.55s ease both;
+  --container-content: 46rem;
+  --container-shell: calc(46rem + 8rem);
+  --animate-rise: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes landing-rise {
+@keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(0.6rem);
+    transform: translateY(1rem);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 
 @layer base {
   html {
     color-scheme: dark;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-bg);
   }
 
   body {
@@ -40,10 +49,11 @@
     color: var(--color-ink);
     font-family: var(--font-body);
     font-size: 1.05rem;
-    line-height: 1.55;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* Atmosphere: graphite wash + faint JS-yellow vignette + grid */
+  /* Atmosphere: aurora glows sweeping in from the top corners */
   body::before {
     content: '';
     position: fixed;
@@ -52,40 +62,75 @@
     z-index: -2;
     background:
       radial-gradient(
-        ellipse 80% 50% at 10% -10%,
-        color-mix(in oklab, var(--color-accent) 18%, transparent),
+        ellipse 70% 45% at 15% -12%,
+        color-mix(in oklab, var(--color-accent) 13%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 55% 38% at 92% -8%,
+        oklch(0.45 0.12 285 / 0.28),
         transparent 55%
       ),
-      radial-gradient(ellipse 60% 40% at 100% 0%, rgb(40 60 90 / 0.25), transparent 50%),
-      linear-gradient(180deg, #0e1116 0%, var(--color-bg) 40%, #080a0d 100%);
+      radial-gradient(
+        ellipse 90% 30% at 50% 108%,
+        oklch(0.3 0.05 260 / 0.35),
+        transparent 60%
+      );
   }
 
+  /* Film grain over everything, very faint */
   body::after {
     content: '';
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: -1;
-    opacity: 0.35;
-    background-image:
-      linear-gradient(var(--color-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 20%, black, transparent);
+    z-index: 50;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   a {
     color: var(--color-accent);
     text-decoration-thickness: 1px;
-    text-underline-offset: 0.18em;
+    text-underline-offset: 0.2em;
+    text-decoration-color: color-mix(in oklab, var(--color-accent) 45%, transparent);
     transition:
       color 0.15s ease,
-      text-underline-offset 0.15s ease;
+      text-decoration-color 0.15s ease;
   }
 
   a:hover {
-    color: var(--color-accent-bright);
-    text-underline-offset: 0.28em;
+    text-decoration-color: var(--color-accent);
+  }
+}
+
+@utility card-surface {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(
+    160deg,
+    color-mix(in oklab, var(--color-bg-elevated) 92%, var(--color-accent)),
+    var(--color-card) 55%
+  );
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+@utility card-surface-hover {
+  &:hover {
+    border-color: color-mix(in oklab, var(--color-accent) 28%, var(--color-line));
+    transform: translateY(-2px);
+    box-shadow:
+      0 12px 32px -16px rgb(0 0 0 / 0.8),
+      0 0 0 1px color-mix(in oklab, var(--color-accent) 8%, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      transform: none;
+    }
   }
 }
 
